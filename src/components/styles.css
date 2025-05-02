@@ -1,0 +1,102 @@
+.app-background {
+    min-height: 100vh;
+    background: #5e8cec;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.center-bar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 40vh;
+    padding: 4em;
+}
+
+.query-form {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+.query-input {
+    flex: 1;
+    padding: 0.5em;
+    font-size: 1.2em;
+    width: 350px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.query-btn {
+    padding: 0.5em 1.2em;
+    margin-left: 0.5em;
+    font-size: 1em;
+    border-radius: 5px;
+    border: none;
+    background: #0078d4;
+    color: #fff;
+    cursor: pointer;
+}
+
+.frames {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    width: 100vw;       /* Full viewport width */
+    max-width: 1600px;  /* Optional: maximum width */
+    min-height: 60vh;
+    margin-bottom: 2em;
+    box-sizing: border-box;
+    padding: 0 1em;
+}
+
+.frame {
+    flex: 1 1 0;        /* Grow and shrink equally */
+    border: 1px solid #ccc;
+    padding: 1em;
+    background: #0c0000;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;        /* Allows shrinking below content size */
+}
+
+.results-iframe {
+    width: 100%;         /* Fill parent frame horizontally */
+    height: 100%;        /* Or any height you want */
+    border: none;
+    display: block;
+    box-sizing: border-box;
+}
+
+/* Responsive: Stack vertically on small screens */
+@media (max-width: 900px) {
+    .frames {
+        flex-direction: column;
+        gap: 1.5em;
+        width: 98vw;
+    }
+    .results-iframe {
+        height: 40vh; /* Adjust height for mobile */
+    }
+}
+
+.search-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    background: #0c0000;
+    padding: 1.5em;
+    border-radius: 8px;
+    box-shadow: 0 0 8px #e0e0e0;
+    margin-bottom: 1em;
+}
+
+.options-group {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    flex-wrap: wrap;
+}
