@@ -35,7 +35,7 @@ A React-based web application that allows users to search the **Gymnastics Searc
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/karlos3797/final_ir_web.git
+git clone https://github.com/karlos37/final_ir_web.git
 cd final_ir_web
 ```
 
