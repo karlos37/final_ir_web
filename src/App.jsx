@@ -25,7 +25,7 @@ function App() {
             </div>
             <div className="frames">
                 <div className="frame">
-                    <h2>Your Search Engine</h2>
+                    <h2>Custom Search Engine</h2>
                     <SearchResults query={query} options={searchOptions} trigger={triggerSearch} />
                 </div>
                 <div className="frame">

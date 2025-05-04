@@ -1,47 +1,56 @@
 import React, { useEffect, useState } from "react";
 
-// Dummy data for illustration; replace with your actual API call
-const mockResults = {
-    clusters: [
-        { title: "Cluster 1", items: ["Result 1A", "Result 1B"] },
-        { title: "Cluster 2", items: ["Result 2A", "Result 2B"] },
-    ],
-    expansions: ["Expansion 1", "Expansion 2"],
-    results: ["Your Engine Result 1", "Your Engine Result 2"],
-};
+function getApiType(options) {
+    if (options.relevanceModel === "pagerank") return "page_rank";
+    if (options.relevanceModel === "hits") return "hits";
+    if (options.clusteringOption === "flat") return "flat_clustering";
+    if (options.clusteringOption === "single_hac") return "single_hac";
+    if (options.clusteringOption === "average_hac") return "average_hac";
+    if (options.queryExpansion === "rocchio") return "rocchio";
+    if (options.queryExpansion === "association") return "association_qe";
+    if (options.queryExpansion === "metric") return "metric_qe";
+    if (options.queryExpansion === "scalar") return "scalar_qe";
+    return "";
+}
 
-function SearchResults({ query, trigger }) {
+function SearchResults({ query, options, trigger }) {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        if (!query) return;
-        // Replace with your search logic/API call
-        setTimeout(() => setData(mockResults), 500);
-    }, [query, trigger]);
+        if (!query || !options) return;
+
+        const type = getApiType(options);
+        if (!type) return;
+
+        const params = new URLSearchParams({
+            query,
+            type,
+        });
+
+        // fetch(`http://127.0.0.1:5000/ping`)
+        //     .then((res) => res.json())
+        //     .then((data) => setData(data))
+        //     .catch(() => setData(null));
+        fetch(`http://127.0.0.1:5000/api/v1/search?${params.toString()}`)
+            .then((res) => res.json())
+            .then((data) => setData(data))
+            .catch(() => setData(null));
+    }, [query, options, trigger]);
 
     if (!query) return <div>Enter a query to see results.</div>;
     if (!data) return <div>Loading...</div>;
 
     return (
         <div>
-            <h3>Query Expansions</h3>
-            <ul>
-                {data.expansions.map((exp, i) => (
-                    <li key={i}>{exp}</li>
-                ))}
-            </ul>
-            <h3>Clusters</h3>
-            {data.clusters.map((cluster, i) => (
-                <div key={i}>
-                    <strong>{cluster.title}</strong>
-                    <ul>
-                        {cluster.items.map((item, j) => <li key={j}>{item}</li>)}
-                    </ul>
-                </div>
-            ))}
+            <div><strong>Expanded Query:</strong> {data.query}</div>
             <h3>Results</h3>
             <ul>
-                {data.results.map((r, i) => <li key={i}>{r}</li>)}
+                {(data.query_results || []).map((item, i) => (
+                    <li key={i}>
+                        <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title || item.url}</a>
+                        <div>{item.snippet || item.content}</div>
+                    </li>
+                ))}
             </ul>
         </div>
     );
