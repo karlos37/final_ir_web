@@ -13,6 +13,11 @@ function getApiType(options) {
     return "";
 }
 
+function truncate(text, maxLength = 150) {
+    if (!text) return "";
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+}
+
 function SearchResults({ query, options, trigger }) {
     const [data, setData] = useState(null);
 
@@ -48,7 +53,7 @@ function SearchResults({ query, options, trigger }) {
                 {(data.query_results || []).map((item, i) => (
                     <li key={i}>
                         <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title || item.url}</a>
-                        <div>{item.snippet || item.content}</div>
+                        <div>{truncate(item.snippet || item.content, 150)}</div>
                     </li>
                 ))}
             </ul>
