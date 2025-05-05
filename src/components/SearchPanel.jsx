@@ -4,6 +4,7 @@ const defaultOptions = {
     relevanceModel: "pagerank",
     clusteringOption: "flat",
     queryExpansion: "association",
+    useHybrid: true,  // Default to using hybrid scoring
 };
 
 function SearchPanel({ onSubmit }) {
@@ -11,10 +12,10 @@ function SearchPanel({ onSubmit }) {
     const [options, setOptions] = useState(defaultOptions);
 
     const handleOptionChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
         setOptions((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: type === "checkbox" ? checked : value,
         }));
     };
 
@@ -49,6 +50,22 @@ function SearchPanel({ onSubmit }) {
                            onChange={handleOptionChange}
                     /> Hits
                 </label>
+
+                {/* Hybrid option as a checkbox */}
+                <div className="hybrid-option">
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="useHybrid"
+                            checked={options.useHybrid}
+                            onChange={handleOptionChange}
+                        />
+                        Use Vector Space Hybrid Scoring
+                    </label>
+                    {/*<span className="option-tooltip">*/}
+                    {/*    Combines selected relevance model with vector space similarity*/}
+                    {/*</span>*/}
+                </div>
             </div>
 
             <div className="options-group">
@@ -92,6 +109,12 @@ function SearchPanel({ onSubmit }) {
                            checked={options.queryExpansion === "scalar"}
                            onChange={handleOptionChange}
                     /> Scalar
+                </label>
+                <label>
+                    <input type="radio" name="queryExpansion" value="rocchio"
+                           checked={options.queryExpansion === "rocchio"}
+                           onChange={handleOptionChange}
+                    /> Rocchio
                 </label>
             </div>
 
